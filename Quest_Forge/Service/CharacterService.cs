@@ -15,10 +15,6 @@ public class CharacterService(List<Character> characters)
                 return character;
             }
         }
-        Console.WriteLine("This chacater does not exists");
         return null;
     }
-    
-    
-    
 }

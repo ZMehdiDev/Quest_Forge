@@ -14,4 +14,19 @@ public class Character
         Exp = exp;
         Quests = quests ?? [];
     }
+
+    public void DisplayQuests()
+    {
+        foreach (var quest in Quests )
+        {
+            Console.WriteLine(quest.Name);
+        }
+    }
+
+    public void TakeQuest(Quest quest)
+    {
+        Quests.Add(quest);
+        quest.Holder = this;
+    }
+    
 }

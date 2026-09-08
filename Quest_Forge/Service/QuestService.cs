@@ -15,7 +15,6 @@ public class QuestService(List<Quest> quests)
                 return quest;
             }
         }
-        Console.WriteLine("This quest does not exists...");
         return null;
     }
 }
