@@ -1,135 +1,28 @@
-﻿using Quest_Forge.Entity;
+﻿using System.Text.Json;
+using Quest_Forge.Entity;
 using Quest_Forge.Service;
 
-// Characters
-var characters = new List<Character>
-{
-    new Character(1, "Arthas", 150, []),
-    new Character(2, "Luna", 230, []),
-    new Character(3, "Garen", 80, [])
-};
+var builder = WebApplication.CreateBuilder(args);
 
-// Quests
-var quests = new List<Quest>
-{
-    new TimedQuest(
-        1,
-        "Slay the Goblin King",
-        100,
-        0,
-        100,
-        null,
-        30
-    ),
+var jsonChar = File.ReadAllText("Data/characters.json");
 
-    new TimedQuest(
-        2,
-        "Collect 10 Herbs",
-        50,
-        5,
-        10,
-        null,
-        15
-    )
-};
+var characters = JsonSerializer.Deserialize<List<Character>>(jsonChar)
+                 ?? [];
 
-// Services
-var characterService = new CharacterService(characters);
-var questService = new QuestService(quests);
+var jsonQuests = File.ReadAllText("Data/quests.json");
 
-// Assign quests
-var arthas = characterService.FindCharacterById(1);
-var luna = characterService.FindCharacterById(2);
+var quests = JsonSerializer.Deserialize<List<Quest>>(jsonQuests)
+             ?? [];
 
-var goblinQuest = questService.FindQuestById(1);
-var herbsQuest = questService.FindQuestById(2);
+builder.Services.AddSingleton(quests);
+builder.Services.AddSingleton(characters);
 
-arthas?.TakeQuest(goblinQuest!);
-luna?.TakeQuest(herbsQuest!);
+builder.Services.AddControllers();
+builder.Services.AddScoped<CharacterService>();
+builder.Services.AddScoped<QuestService>();
 
-// Display initial state
-Console.WriteLine("=== Characters ===");
+var app = builder.Build();
 
-foreach (var character in characters)
-{
-    Console.WriteLine($"{character.Id} - {character.Name} - {character.Exp} XP");
-    character.DisplayQuests();
-}
+app.MapControllers();
 
-// First progression
-Console.WriteLine("\n=== Quest Progression ===");
-
-try
-{
-    goblinQuest?.AddProgression(30);
-    Console.WriteLine(
-        $"Goblin Quest: {goblinQuest?.Progression}/100"
-    );
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Could not progress Goblin Quest: {e.Message}");
-}
-
-try
-{
-    herbsQuest?.AddProgression(3);
-    Console.WriteLine(
-        $"Herbs Quest: {herbsQuest?.Progression}/10"
-    );
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Could not progress Herbs Quest: {e.Message}");
-}
-
-// Second progression
-Console.WriteLine("\n=== More Progression ===");
-
-try
-{
-    goblinQuest?.AddProgression(20);
-    Console.WriteLine(
-        $"Goblin Quest: {goblinQuest?.Progression}/100"
-    );
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Could not progress Goblin Quest: {e.Message}");
-}
-
-try
-{
-    herbsQuest?.AddProgression(2);
-    Console.WriteLine(
-        $"Herbs Quest: {herbsQuest?.Progression}/10"
-    );
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Could not progress Herbs Quest: {e.Message}");
-}
-
-// Final progression
-Console.WriteLine("\n=== Final Progression ===");
-
-try
-{
-    goblinQuest?.AddProgression(50);
-    Console.WriteLine(
-        $"Goblin Quest: {goblinQuest?.Progression}/100"
-    );
-}
-catch (Exception e)
-{
-    Console.WriteLine($"Could not progress Goblin Quest: {e.Message}");
-}
-
-// Final state
-Console.WriteLine("\n=== Final Characters ===");
-
-foreach (var character in characters)
-{
-    Console.WriteLine($"{character.Name} - {character.Exp} XP");
-    character.DisplayQuests();
-}
+app.Run();

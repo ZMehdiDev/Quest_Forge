@@ -1,23 +1,15 @@
 ﻿namespace Quest_Forge.Entity;
 
-public abstract class Quest(
-    int id,
-    string? name,
-    double reward,
-    int progression,
-    int difficulty,
-    Character? holder)
+public class Quest
 {
-    public int Id { get; set; } = id;
-    public string Name { get; set; } = name ?? "Unknown";
+    public int Id { get; set; }
+    public string Name { get; set; } = "Unknown";
+    public double Reward { get; set; }
+    public int Progression { get; set; }
+    public int Difficulty { get; set; }
+    public bool IsFinished { get; set; }
+    public Character? Holder { get; set; }
 
-    private double Reward { get; set; } = reward;
-    public int Progression { get; private set; } = progression;
-    private int Difficulty { get; set; } = difficulty;
-    private bool IsFinished { get; set; }
-
-    public Character? Holder { get; set; } = holder;
-    
     public void AddProgression(int amount)
     {
         if (IsFinished)
@@ -31,7 +23,6 @@ public abstract class Quest(
             IsFinished = true;
             Holder?.Exp += Reward;
             Holder?.Quests.Remove(this);
-            return;
         }
     }
 }

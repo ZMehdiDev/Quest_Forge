@@ -17,4 +17,9 @@ public class QuestService(List<Quest> quests)
         }
         return null;
     }
+
+    public List<Quest> FindAllQuests()
+    {
+        return _quest;
+    } 
 }

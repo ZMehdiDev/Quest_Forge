@@ -1,0 +1,23 @@
+﻿[
+  {
+    "id": 1,
+    "name": "Collect 10 Herbs",
+    "reward": 50,
+    "progression": 5,
+    "difficulty": 10
+  },
+  {
+    "id": 2,
+    "name": "Find the Lost Sword",
+    "reward": 150,
+    "progression": 10,
+    "difficulty": 50
+  },
+  {
+    "id": 3,
+    "name": "Rescue the Village",
+    "reward": 200,
+    "progression": 0,
+    "difficulty": 100
+  }
+]

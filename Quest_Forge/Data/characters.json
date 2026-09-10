@@ -1,0 +1,52 @@
+﻿[
+  {
+    "id": 1,
+    "name": "Arthas",
+    "exp": 150
+  },
+  {
+    "id": 2,
+    "name": "Luna",
+    "exp": 230
+  },
+  {
+    "id": 3,
+    "name": "Garen",
+    "exp": 80
+  },
+  {
+    "id": 4,
+    "name": "Jinx",
+    "exp": 310
+  },
+  {
+    "id": 5,
+    "name": "Yasuo",
+    "exp": 190
+  },
+  {
+    "id": 6,
+    "name": "Ahri",
+    "exp": 275
+  },
+  {
+    "id": 7,
+    "name": "Ezreal",
+    "exp": 120
+  },
+  {
+    "id": 8,
+    "name": "Lux",
+    "exp": 340
+  },
+  {
+    "id": 9,
+    "name": "Riven",
+    "exp": 210
+  },
+  {
+    "id": 10,
+    "name": "Thresh",
+    "exp": 165
+  }
+]

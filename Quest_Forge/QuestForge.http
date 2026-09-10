@@ -1,0 +1,30 @@
+﻿### Tous les personnages
+GET http://localhost:5000/api/character
+
+### Personnage par ID
+GET http://localhost:5000/api/character/1
+
+### Toutes les quêtes
+GET http://localhost:5000/api/quest
+
+### Quête par ID
+GET http://localhost:5000/api/quest/1
+
+### Créer un personnage
+POST http://localhost:5000/api/character
+Content-Type: application/json
+
+{
+  "name": "Zed"
+}
+
+### Faire progresser une quête
+POST http://localhost:5000/api/quest/1/progress
+Content-Type: application/json
+
+{
+  "amount": 3
+}
+
+### Donner une quête à un personnage
+POST http://localhost:5000/api/character/1/quest/1

@@ -17,4 +17,17 @@ public class CharacterService(List<Character> characters)
         }
         return null;
     }
+    
+    public List<Character> FindAllCharacters()
+    {
+        return _characters;
+    }
+
+    public Character AddCharacter(Character character)
+    {
+        var id = _characters.Count + 100;
+        character.Id = id;
+        _characters.Add(character);
+        return character;
+    }
 }
