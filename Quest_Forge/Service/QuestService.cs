@@ -1,25 +1,34 @@
-﻿using Quest_Forge.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Quest_Forge.Data;
+using Quest_Forge.Entity;
 
 namespace Quest_Forge.Service;
 
-public class QuestService(List<Quest> quests)
+public class QuestService(QuestForgeDbContext dbContext)
 {
-    private readonly List<Quest> _quest = quests;
+    private readonly QuestForgeDbContext _dbContext = dbContext;
 
-    public Quest? FindQuestById(int id)
+    public async Task<Quest?> FindQuestById(int id)
     {
-        foreach (var quest in _quest)
-        {
-            if (quest.Id == id)
-            {
-                return quest;
-            }
-        }
-        return null;
+        return await _dbContext.Quests.FindAsync(id);
     }
 
-    public List<Quest> FindAllQuests()
+    public async Task<List<Quest>> FindAllQuests()
     {
-        return _quest;
-    } 
+        return await _dbContext.Quests.ToListAsync();
+    }
+
+    public async Task<Quest?> AddProgression(int id, int amount)
+    {
+        var quest = await FindQuestById(id);
+
+        if (quest == null)
+            return null;
+
+        quest.AddProgression(amount);
+
+        await _dbContext.SaveChangesAsync();
+
+        return quest;
+    }
 }

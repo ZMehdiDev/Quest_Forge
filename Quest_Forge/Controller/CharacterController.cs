@@ -16,44 +16,38 @@ public class CharacterController (CharacterService characterService, QuestServic
     {
 
         var character = characterService.FindCharacterById(id);
-        if (character == null)
-        {
-            return NotFound();
-        }
 
         return Ok(character);
     }
     
     [HttpGet]
-    public List<Character> GetAllCharacters()
+    public Task<List<Character>> GetAllCharacters()
     {
         return characterService.FindAllCharacters();
     }
 
     [HttpPost("{characterId:int}/quest/{questId:int}")]
-    public IActionResult TakeQuest(int characterId, int questId)
+    public async Task<IActionResult> TakeQuest(int characterId, int questId)
     {
-        var character = characterService.FindCharacterById(characterId);
-        if (character == null)
+        var character = await characterService.FindCharacterById(characterId);
+
+        var quest = await questService.FindQuestById(questId);
+
+        if (character == null || quest == null)
         {
             return NotFound();
         }
-        
-        var quest = questService.FindQuestById(questId);
-        if (quest==null)
-        {
-            return NotFound();
-        }
-        
+
         character.TakeQuest(quest);
+
         return Ok();
     }
 
     [HttpPost]
-    public IActionResult CreateCharacter(CreateCharacterRequest request)
+    public async Task<IActionResult> CreateCharacter(CreateCharacterRequest request)
     {
-        var character = new Character(0, request.Name, 0, []);
-        characterService.AddCharacter(character);
+        var character =  new Character(0, request.Name, 0, []);
+        _ = await characterService.AddCharacter(character);
         return Created();
     }
     

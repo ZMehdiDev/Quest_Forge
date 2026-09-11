@@ -1,33 +1,28 @@
-﻿using Quest_Forge.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Quest_Forge.Data;
+using Quest_Forge.Entity;
 
 namespace Quest_Forge.Service;
 
-public class CharacterService(List<Character> characters)
+public class CharacterService(QuestForgeDbContext dbContext)
 {
-    private readonly List<Character> _characters = characters;
+    private readonly QuestForgeDbContext _dbContext = dbContext;
 
-    public Character? FindCharacterById(int id)
+    public async Task<Character?> FindCharacterById(int id)
     {
-        foreach (var character in _characters)
-        {
-            if (character.Id == id)
-            {
-                return character;
-            }
-        }
-        return null;
+        return await _dbContext.Characters.FindAsync(id);
     }
     
-    public List<Character> FindAllCharacters()
+    public async Task<List<Character>> FindAllCharacters()
     {
-        return _characters;
+        return await _dbContext.Characters.ToListAsync();
     }
 
-    public Character AddCharacter(Character character)
+    public async Task<Character> AddCharacter(Character character)
     {
-        var id = _characters.Count + 100;
-        character.Id = id;
-        _characters.Add(character);
+        _dbContext.Characters.Add(character);
+        await _dbContext.SaveChangesAsync();
         return character;
     }
+    
 }

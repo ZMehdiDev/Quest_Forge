@@ -1,30 +1,65 @@
-﻿### Tous les personnages
-GET http://localhost:5000/api/character
+﻿@Quest_Forge_HostAddress = http://localhost:5000
 
-### Personnage par ID
-GET http://localhost:5000/api/character/1
+### =========================================================
+### CHARACTERS
+### =========================================================
 
-### Toutes les quêtes
-GET http://localhost:5000/api/quest
+### 1. Vérifier que la DB est vide
+GET {{Quest_Forge_HostAddress}}/api/Character
+Accept: application/json
 
-### Quête par ID
-GET http://localhost:5000/api/quest/1
 
-### Créer un personnage
-POST http://localhost:5000/api/character
+###
+
+### 2. Créer un Character
+POST {{Quest_Forge_HostAddress}}/api/Character
 Content-Type: application/json
 
 {
-  "name": "Zed"
+  "name": "Arthas"
 }
 
-### Faire progresser une quête
-POST http://localhost:5000/api/quest/1/progress
+###
+
+### 3. Récupérer le Character créé
+### Utilise l'ID retourné par le POST précédent
+GET {{Quest_Forge_HostAddress}}/api/Character/1
+Accept: application/json
+
+###
+
+### 4. Récupérer tous les Characters
+GET {{Quest_Forge_HostAddress}}/api/Character
+Accept: application/json
+
+
+### =========================================================
+### QUESTS
+### =========================================================
+
+### 5. Vérifier que la DB des Quests est vide
+GET {{Quest_Forge_HostAddress}}/api/Quest
+Accept: application/json
+
+###
+
+### 6. Récupérer une Quest
+GET {{Quest_Forge_HostAddress}}/api/Quest/1
+Accept: application/json
+
+###
+
+### 7. Ajouter de la progression
+### À tester une fois que tu as une Quest en DB
+POST {{Quest_Forge_HostAddress}}/api/Quest/1/progress
 Content-Type: application/json
 
 {
-  "amount": 3
+  "amount": 10
 }
 
-### Donner une quête à un personnage
-POST http://localhost:5000/api/character/1/quest/1
+###
+
+### 8. Vérifier que la progression a été sauvegardée
+GET {{Quest_Forge_HostAddress}}/api/Quest/1
+Accept: application/json

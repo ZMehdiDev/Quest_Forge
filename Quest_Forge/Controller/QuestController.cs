@@ -10,7 +10,7 @@ namespace Quest_Forge.Controller;
 public class QuestController (QuestService questService) : ControllerBase
 {
     [HttpGet("{id:int}")]
-    public IActionResult GetQuestById(int id)
+    public async Task<IActionResult> GetQuestById(int id)
     {
 
         var quest = questService.FindQuestById(id);
@@ -23,21 +23,20 @@ public class QuestController (QuestService questService) : ControllerBase
     }
 
     [HttpGet]
-    public List<Quest> GetAllQuests()
+    public async Task<List<Quest>> GetAllQuests()
     {
-        return questService.FindAllQuests();
+        return await questService.FindAllQuests();
     }
 
     [HttpPost("{id:int}/progress")]
-    public IActionResult AddProgression(int id, ProgressQuestRequest request)
+    public async Task<IActionResult> AddProgression(int id, ProgressQuestRequest request)
     {
-        var quest = questService.FindQuestById(id);
-        if (quest==null)
-        {
+        var quest = await questService.AddProgression(id, request.Amount);
+
+        if (quest == null)
             return NotFound();
-        }
-        quest.AddProgression(request.Amount);
-        return Ok();
+
+        return Ok(quest);
     }
     
 }

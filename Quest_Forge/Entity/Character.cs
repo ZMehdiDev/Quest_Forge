@@ -6,6 +6,10 @@ public class Character
     public string Name { get; set; }
     public double Exp { get; set; }
     public List<Quest> Quests { get; set; } = [];
+    
+    public Character()
+    {
+    }
 
     public Character(int id, string? name, double exp, List<Quest>? quests)
     {
